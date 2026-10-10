@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Fire Response Robot Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+      padding: 20px;
+      color: #172033;
+    }
+
+    main {
+      max-width: 750px;
+      margin: auto;
+    }
+
+    h1 { color: #183153; }
+
+    .notice {
+      background: #fff0c2;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      margin: 12px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #0001;
+    }
+
+    .value {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 12px;
+      margin: 5px;
+      border: 0;
+      border-radius: 7px;
+      background: #183153;
+      color: white;
+    }
+
+    #status { color: #137547; }
+  </style>
+</head>
+
+<body>
+<main>
+  <h1>AI-Assisted Fire Response Robot</h1>
+
+  <p class="notice">
+    DEMO MODE: Values are simulated, not live sensor readings.
+  </p>
+
+  <div class="card">
+    <h3>Temperature</h3>
+    <div class="value" id="temp">29.4 °C</div>
+  </div>
+
+  <div class="card">
+    <h3>Humidity</h3>
+    <div class="value" id="humidity">51%</div>
+  </div>
+
+  <div class="card">
+    <h3>Obstacle Distance</h3>
+    <div class="value" id="distance">68 cm</div>
+  </div>
+
+  <div class="card">
+    <h3>System Status</h3>
+    <div class="value" id="status">NORMAL</div>
+  </div>
+
+  <div class="card">
+    <h3>Demo Controls</h3>
+    <button onclick="showNormal()">
+      Normal Status
+    </button>
+
+    <button onclick="showAlert()">
+      Simulate Alert
+    </button>
+  </div>
+
+  <p>
+    Educational prototype only. Not certified for
+    firefighting or emergency response.
+  </p>
+</main>
+
+<script>
+  function showNormal() {
+    document.getElementById("temp").textContent =
+      "29.4 °C";
+
+    document.getElementById("humidity").textContent =
+      "51%";
+
+    document.getElementById("distance").textContent =
+      "68 cm";
+
+    const status = document.getElementById("status");
+    status.textContent = "NORMAL";
+    status.style.color = "#137547";
+  }
+
+  function showAlert() {
+    document.getElementById("temp").textContent =
+      "42.0 °C (simulated)";
+
+    document.getElementById("distance").textContent =
+      "18 cm (simulated)";
+
+    const status = document.getElementById("status");
+    status.textContent = "SIMULATED ALERT";
+    status.style.color = "#b42318";
+  }
+</script>
+</body>
+</html>

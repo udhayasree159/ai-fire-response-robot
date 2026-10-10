@@ -1,0 +1,87 @@
+
+#include <DHT.h>
+
+#define DHT_PIN 4
+#define DHT_TYPE DHT22
+
+#define TRIG_PIN 5
+#define ECHO_PIN 18
+
+DHT dht(DHT_PIN, DHT_TYPE);
+
+const float OBSTACLE_LIMIT_CM = 25.0;
+const float DEMO_TEMP_LIMIT_C = 40.0;
+
+float readDistance() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(3);
+
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  unsigned long duration =
+      pulseIn(ECHO_PIN, HIGH, 25000UL);
+
+  if (duration == 0) {
+    return -1;
+  }
+
+  return duration * 0.0343 / 2.0;
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+
+  dht.begin();
+  delay(1500);
+
+  Serial.println(
+      "Temperature,Humidity,Distance,Status");
+}
+
+void loop() {
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+  float distance = readDistance();
+
+  String status = "NORMAL";
+
+  if (isnan(temperature) || isnan(humidity)) {
+    status = "SENSOR_ERROR";
+  } else if (temperature >= DEMO_TEMP_LIMIT_C) {
+    status = "TEMP_ALERT_DEMO";
+  }
+
+  if (distance >= 0 &&
+      distance <= OBSTACLE_LIMIT_CM) {
+    status += "|OBSTACLE_NEAR";
+  }
+
+  if (distance < 0) {
+    status += "|DISTANCE_SENSOR_ERROR";
+  }
+
+  if (isnan(temperature) || isnan(humidity)) {
+    Serial.print("NA,NA,");
+  } else {
+    Serial.print(temperature, 1);
+    Serial.print(",");
+    Serial.print(humidity, 1);
+    Serial.print(",");
+  }
+
+  if (distance < 0) {
+    Serial.print("NA,");
+  } else {
+    Serial.print(distance, 1);
+    Serial.print(",");
+  }
+
+  Serial.println(status);
+
+  delay(2000);
+}
