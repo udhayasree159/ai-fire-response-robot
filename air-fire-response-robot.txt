@@ -1,0 +1,9 @@
+ai-fire-response-robot/
+├── README.md
+├── .gitignore
+├── esp32_firmware/
+│   └── fire_response_robot.ino
+├── dashboard/
+│   └── index.html
+└── docs/
+    └── safety_and_limitations.md
